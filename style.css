@@ -1,0 +1,307 @@
+:root {
+    /* Color Palette */
+    --bg-color: #f0f4f8;
+    /* Soft blue-grey for better neumorphism contrast, or keep warm? User asked for warm. */
+    --bg-warm: #FEF9E7;
+    /* Soft Cream */
+    --bg-gradient-start: #FEF9E7;
+    --bg-gradient-end: #FDEBD0;
+    /* Soft Peach */
+
+    --primary-color: #F4D03F;
+    /* Warm Yellow */
+    --primary-glow: rgba(244, 208, 63, 0.4);
+
+    --text-color: #5D4037;
+    --text-muted: #8d7b75;
+
+    /* Neumorphism Shadows */
+    --shadow-light: #ffffff;
+    --shadow-dark: #d1cdc0;
+    /* Adjusted for warm bg */
+    --inner-shadow-light: rgba(255, 255, 255, 0.8);
+    --inner-shadow-dark: rgba(209, 205, 192, 0.5);
+
+    --radius-large: 32px;
+    --radius-medium: 20px;
+    --radius-small: 12px;
+
+    --font-family: 'M PLUS Rounded 1c', sans-serif;
+
+    /* Ring Colors */
+    --ring-bg: #e0dcb0;
+}
+
+body {
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    color: var(--text-color);
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    /* Prevent scrollbars during animations */
+    perspective: 1000px;
+}
+
+/* Fade In Animation */
+body {
+    animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.app-container {
+    text-align: center;
+    padding: 2rem;
+    max-width: 450px;
+    width: 90%;
+    /* No main container background, elements float independently or in groups */
+}
+
+h1 {
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Timer Container specific styles */
+.timer-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 3rem;
+    border-radius: 50%;
+    /* Neumorphic Circle */
+    background: var(--bg-warm);
+    box-shadow:
+        20px 20px 60px var(--shadow-dark),
+        -20px -20px 60px var(--shadow-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: breathing 6s ease-in-out infinite;
+}
+
+@keyframes breathing {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* SVG Ring */
+.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+    /* Start from top */
+    pointer-events: none;
+    z-index: 1;
+    /* Above shadow, below text if overlapped */
+}
+
+.progress-ring__circle-bg {
+    stroke: var(--ring-bg);
+}
+
+.progress-ring__circle {
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s linear, stroke 1s ease;
+    filter: drop-shadow(0 0 4px var(--primary-glow));
+    /* Circumference = 2 * PI * 120 ≈ 753.98 */
+    stroke-dasharray: 753.98;
+    stroke-dashoffset: 0;
+    /* Starts full */
+}
+
+.timer-display {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    z-index: 2;
+    text-shadow:
+        1px 1px 2px var(--shadow-dark),
+        -1px -1px 2px var(--shadow-light);
+    position: relative;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.btn {
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--radius-large);
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--bg-warm);
+    color: var(--text-color);
+
+    /* Neumorphic Button */
+    box-shadow:
+        8px 8px 16px var(--shadow-dark),
+        -8px -8px 16px var(--shadow-light);
+}
+
+.btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    color: var(--primary-color);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.98);
+    box-shadow:
+        inset 6px 6px 12px var(--shadow-dark),
+        inset -6px -6px 12px var(--shadow-light);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.btn.start {
+    color: #e67e22;
+}
+
+/* Settings Inputs */
+.settings {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* Align bottom */
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border-radius: var(--radius-medium);
+
+    /* Glassmorphism card for settings */
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-small);
+    background: var(--bg-warm);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 1.2rem;
+    text-align: center;
+
+    /* Neumorphic Inset */
+    box-shadow:
+        inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+
+    transition: all 0.3s ease;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    box-shadow:
+        inset 6px 6px 12px var(--shadow-dark),
+        inset -6px -6px 12px var(--shadow-light);
+    color: var(--primary-color);
+}
+
+.btn.set-time {
+    padding: 12px 24px;
+    border-radius: var(--radius-medium);
+    font-size: 1rem;
+    margin-bottom: 2px;
+    /* Visual alignment with inputs */
+}
+
+/* Animations classes used by JS */
+/* Pulse Animation for last 10 seconds */
+.timer-pulsing {
+    animation: urgent-pulse 1s infinite !important;
+}
+
+@keyframes urgent-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(231, 76, 60, 0);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
+
+.timer-finished {
+    animation: glow-pulse 2s infinite !important;
+}
+
+@keyframes glow-pulse {
+    0% {
+        box-shadow: 0 0 20px var(--primary-color);
+    }
+
+    50% {
+        box-shadow: 0 0 40px #e74c3c;
+    }
+
+    /* Red glow on finish */
+    100% {
+        box-shadow: 0 0 20px var(--primary-color);
+    }
+}
+
+.hidden {
+    display: none;
+}
